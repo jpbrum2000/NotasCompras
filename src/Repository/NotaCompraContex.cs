@@ -23,6 +23,11 @@ namespace Repository {
                 usuario.HasKey(u => u.Id);
             });
 
+            modelBuilder.Entity<ConfiguracaoFaixaVistosAprovacoes>(ConfFaixaVistoAprov => 
+            {
+                ConfFaixaVistoAprov.HasKey(c => c.Id);
+            });
+
             Seed(modelBuilder);
         }
     
@@ -77,6 +82,16 @@ namespace Repository {
                     new Usuario { Id = 2, Login = "subgerente", Senha = "subgerente", Papel = Papel.Aprovacao, ValorMinimo = 1000.01, ValorMaximo = 999999.99 },
                     new Usuario { Id = 3, Login = "vendedor", Senha = "vendedor", Papel = Papel.Visto, ValorMinimo = 10000.01, ValorMaximo = 999999.99 },
                     new Usuario { Id = 4,  Login = "auxiliar", Senha = "auxiliar", Papel = Papel.Visto, ValorMinimo = 0, ValorMaximo = 999999.99}
+                );
+            });
+            
+            modelBuilder.Entity<ConfiguracaoFaixaVistosAprovacoes>(ConfFaixaVistoAprov => 
+            {
+                ConfFaixaVistoAprov.HasData(
+                    new ConfiguracaoFaixaVistosAprovacoes { Id = 1,  FaixaMin = 0, FaixaMax = 1000, Vistos = 1, Aprovacoes = 0 },
+                    new ConfiguracaoFaixaVistosAprovacoes { Id = 2, FaixaMin = 1000.01, FaixaMax = 10000, Vistos = 1, Aprovacoes = 1 },
+                    new ConfiguracaoFaixaVistosAprovacoes { Id = 3, FaixaMin = 10000.01, FaixaMax = 50000, Vistos = 2, Aprovacoes = 1 },
+                    new ConfiguracaoFaixaVistosAprovacoes { Id = 4, FaixaMin = 50000.01, FaixaMax = 999999.99, Vistos = 2, Aprovacoes = 2 }
                 );
             });
         }
