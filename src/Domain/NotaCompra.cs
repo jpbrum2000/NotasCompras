@@ -3,9 +3,8 @@ using System;
 namespace Domain
 {
     public enum Status { Pendente, Aprovada }
-    public class NotaCompra
+    public class NotaCompra : DomainBase
     {
-        public int Id {get;set;}
         public DateTime DataEmissao {get;set;}
         public double ValorMercadorias {get;set;}
         public double ValorDesconto {get;set;}
