@@ -32,8 +32,7 @@ namespace WebApi
             services.AddDbContext<NotaCompraContext>(options =>
             {
                 options.UseSqlite("Data Source="+Environment.ContentRootPath+"\\src\\Repository\\NotasCompras.db");
-            });
-
+            });            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<INotaCompraRepository,NotaCompraRepository>();
         }
