@@ -8,6 +8,8 @@ namespace Repository {
 
         public DbSet<NotaCompra> NotasCompra {get; set;}
         public DbSet<Usuario> Usuario {get; set;}
+        public DbSet<HistoricoAprovacaoNotaCompra> HistAprovNotaCompra {get;set;}
+        public DbSet<ConfiguracaoFaixaVistosAprovacoes> ConfFaixaVistAprov {get;set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -16,11 +18,22 @@ namespace Repository {
             modelBuilder.Entity<NotaCompra>(notaCompra => 
             {
                 notaCompra.HasKey(nf => nf.Id);
+                notaCompra.HasMany(nf => nf.HistAprovNotasCompra).WithOne(h => h.NotaCompra);
             });
             
             modelBuilder.Entity<Usuario>(usuario => 
             {
                 usuario.HasKey(u => u.Id);
+            });
+
+            
+            modelBuilder.Entity<HistoricoAprovacaoNotaCompra>(hist => 
+            {
+                hist.HasKey(h => h.Id);
+                hist.HasOne(h => h.Usuario).WithMany().HasForeignKey(h => h.UsuarioId);
+                hist.HasOne(h => h.NotaCompra).WithMany(nf => nf.HistAprovNotasCompra).HasForeignKey(h => h.NotaCompraId);
+                
+
             });
 
             modelBuilder.Entity<ConfiguracaoFaixaVistosAprovacoes>(ConfFaixaVistoAprov => 

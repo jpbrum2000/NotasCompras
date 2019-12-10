@@ -6,5 +6,6 @@ namespace Domain {
         public double FaixaMax {get; set;}
         public int Vistos {get;set;}
         public int Aprovacoes {get;set;}
+
     }
 }

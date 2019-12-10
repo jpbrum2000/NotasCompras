@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain
 {
@@ -11,6 +13,16 @@ namespace Domain
         public double ValorFrete {get;set;}
         public double ValorTotal {get;set;}
         public Status Status {get;set;}
-        
+        public ICollection<HistoricoAprovacaoNotaCompra> HistAprovNotasCompra {get;set;}
+
+        public bool PrecisaVisto(int numVistoConf) { 
+                int numVisto = HistAprovNotasCompra.Where(h => h.Operacao == Operacao.Visto).Count();
+                return numVisto < numVistoConf;
+        }
+        public bool PrecisaAprovacao(int numAprovConf) { 
+                
+                int numAprov = HistAprovNotasCompra.Where(h => h.Operacao == Operacao.Aprovacao).Count();
+                return numAprov < numAprovConf;
+        }
     }
 }
