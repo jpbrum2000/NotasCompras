@@ -9,7 +9,7 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(NotaCompraContext))]
-    [Migration("20191210130934_InitialMigration")]
+    [Migration("20191210195332_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
