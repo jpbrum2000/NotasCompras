@@ -9,14 +9,88 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(NotaCompraContext))]
-    [Migration("20191208012104_SeedNotaCompraTable")]
-    partial class SeedNotaCompraTable
+    [Migration("20191210130934_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+
+            modelBuilder.Entity("Domain.ConfiguracaoFaixaVistosAprovacoes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aprovacoes");
+
+                    b.Property<double>("FaixaMax");
+
+                    b.Property<double>("FaixaMin");
+
+                    b.Property<int>("Vistos");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ConfFaixaVistAprov");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Aprovacoes = 0,
+                            FaixaMax = 1000.0,
+                            FaixaMin = 0.0,
+                            Vistos = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Aprovacoes = 1,
+                            FaixaMax = 10000.0,
+                            FaixaMin = 1000.01,
+                            Vistos = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Aprovacoes = 1,
+                            FaixaMax = 50000.0,
+                            FaixaMin = 10000.01,
+                            Vistos = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Aprovacoes = 2,
+                            FaixaMax = 999999.98999999999,
+                            FaixaMin = 50000.010000000002,
+                            Vistos = 2
+                        });
+                });
+
+            modelBuilder.Entity("Domain.HistoricoAprovacaoNotaCompra", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Data");
+
+                    b.Property<int>("NotaCompraId");
+
+                    b.Property<int>("Operacao");
+
+                    b.Property<int>("UsuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotaCompraId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("HistAprovNotaCompra");
+                });
 
             modelBuilder.Entity("Domain.NotaCompra", b =>
                 {
@@ -138,6 +212,19 @@ namespace Repository.Migrations
                             ValorMaximo = 999999.98999999999,
                             ValorMinimo = 0.0
                         });
+                });
+
+            modelBuilder.Entity("Domain.HistoricoAprovacaoNotaCompra", b =>
+                {
+                    b.HasOne("Domain.NotaCompra", "NotaCompra")
+                        .WithMany("HistAprovNotasCompra")
+                        .HasForeignKey("NotaCompraId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

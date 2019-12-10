@@ -31,7 +31,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConfiguracaoFaixaVistosAprovacoes");
+                    b.ToTable("ConfFaixaVistAprov");
 
                     b.HasData(
                         new
@@ -66,6 +66,28 @@ namespace Repository.Migrations
                             FaixaMin = 50000.010000000002,
                             Vistos = 2
                         });
+                });
+
+            modelBuilder.Entity("Domain.HistoricoAprovacaoNotaCompra", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Data");
+
+                    b.Property<int>("NotaCompraId");
+
+                    b.Property<int>("Operacao");
+
+                    b.Property<int>("UsuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotaCompraId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("HistAprovNotaCompra");
                 });
 
             modelBuilder.Entity("Domain.NotaCompra", b =>
@@ -188,6 +210,19 @@ namespace Repository.Migrations
                             ValorMaximo = 999999.98999999999,
                             ValorMinimo = 0.0
                         });
+                });
+
+            modelBuilder.Entity("Domain.HistoricoAprovacaoNotaCompra", b =>
+                {
+                    b.HasOne("Domain.NotaCompra", "NotaCompra")
+                        .WithMany("HistAprovNotasCompra")
+                        .HasForeignKey("NotaCompraId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Domain.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
