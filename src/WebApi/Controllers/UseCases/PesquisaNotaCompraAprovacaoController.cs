@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using WebApi.ViewModel;
@@ -16,7 +15,7 @@ namespace WebApi
         }
 
         [HttpGet("PesquisaNotaCompraAprovacao/model")]
-        public async Task<IActionResult> Get() {
+        public IActionResult Get() {
            return Ok(new NotaCompraViewModel());
         }
 
