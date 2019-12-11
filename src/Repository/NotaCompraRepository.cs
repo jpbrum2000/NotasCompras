@@ -39,6 +39,7 @@ namespace Repository {
 
             //Verifica se Usuario já nao aprovou/Vistoriou Nota
             bool usuarioJaRegistrou = (nf.HistAprovNotasCompra.Where(h => h.Id == idNotaCompra && h.Usuario == usuario ).Count() != 0);
+            //Verifica se Nota Precisa de Visto e Aprovacao dado pepel do usuario
             bool podeRegistrarNF = (usuario.Papel == Papel.Visto && nf.PrecisaVisto(ConfFaixaVistAprov.Vistos)) || (usuario.Papel == Papel.Aprovacao && nf.PrecisaAprovacao(ConfFaixaVistAprov.Vistos, ConfFaixaVistAprov.Aprovacoes));
             //Registra VistoAprov
             if (!usuarioJaRegistrou && podeRegistrarNF) {
@@ -50,7 +51,7 @@ namespace Repository {
                 };
                 _context.Add(HistAprovNF);
                 await _context.SaveChangesAsync();
-                // Aprova da Nota
+                // Aprova a Nota
                 if (nf.PodeAprovar(ConfFaixaVistAprov.Vistos,ConfFaixaVistAprov.Aprovacoes)){
                     nf.Status = Status.Aprovada;
                     _context.Update(nf);
