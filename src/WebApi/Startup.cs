@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Repository;
+using WebApi.Helpers;
 
 namespace WebApi
 {
@@ -33,6 +35,14 @@ namespace WebApi
             {
                 options.UseSqlite("Data Source="+Environment.ContentRootPath+"\\NotasCompras.db");
             });            
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfiles());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<INotaCompraRepository,NotaCompraRepository>();
             services.AddCors();
@@ -57,6 +67,7 @@ namespace WebApi
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
+            
         }
     }
 }

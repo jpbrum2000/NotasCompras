@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
@@ -10,8 +11,10 @@ namespace WebApi
     public class PesquisaNotaCompraAprovacaoController : ControllerBase
     {
         private INotaCompraRepository _notaCompraRepository;
-        public PesquisaNotaCompraAprovacaoController(INotaCompraRepository notaCompraRepository) {
+        private IMapper _mapper;
+        public PesquisaNotaCompraAprovacaoController(INotaCompraRepository notaCompraRepository, IMapper mapper) {
             _notaCompraRepository = notaCompraRepository;
+            _mapper = mapper;
         }
 
         [HttpGet("PesquisaNotaCompraAprovacao/model")]
@@ -21,21 +24,10 @@ namespace WebApi
 
         [HttpPost("PesquisaNotaCompraAprovacao")]
         public async Task<IActionResult> Get([FromBody]PesquisaNotaCompraViewModel pesquisaNotaCompra) {
-            List<NotaCompraViewModel> listNotaCompraViewModel = new List<NotaCompraViewModel>();
-            foreach(NotaCompra nfCompra in await _notaCompraRepository.GetNotasComprasAsyncByFilterDate(pesquisaNotaCompra.dataInicio, pesquisaNotaCompra.dataFim, pesquisaNotaCompra.usuarioId)){
-                listNotaCompraViewModel.Add(
-                    new NotaCompraViewModel {
-                        id = nfCompra.Id,
-                        dataEmissao = nfCompra.DataEmissao,
-                        valorMercadorias = nfCompra.ValorMercadorias,
-                        valorDesconto = nfCompra.ValorDesconto,
-                        valorFrete = nfCompra.ValorFrete,
-                        valorTotal = nfCompra.ValorTotal,
-                        status = (ViewModel.Status)(int)nfCompra.Status
-                    }
-                );
-            }
-            
+
+            NotaCompra[] nfCompra = await _notaCompraRepository.GetNotasComprasAsyncByFilterDate(pesquisaNotaCompra.dataInicio, pesquisaNotaCompra.dataFim, pesquisaNotaCompra.usuarioId);
+            NotaCompraViewModel[] listNotaCompraViewModel = _mapper.Map<NotaCompraViewModel[]>(nfCompra);
+                
             return Ok(listNotaCompraViewModel);
         }
     }
