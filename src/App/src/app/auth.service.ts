@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from './model/user';
+import {  Usuario } from './model/Usuario';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthService {
 
   private loggedIn = new BehaviorSubject<boolean>(false);
   private userName = new BehaviorSubject<string>("");
-  private user: User;
+  private user: Usuario;
 
   getUser() {
     return this.user;
@@ -26,9 +27,8 @@ export class AuthService {
 
   constructor(private router: Router, private  httpClient:HttpClient) { }
 
-  login(userForm: User){
-    
-    this.httpClient.post<User>("http://localhost:5000/AutenticaUsuario",
+  login(userForm: Usuario){
+    this.httpClient.post<Usuario>("http://localhost:5000/AutenticaUsuario",
     {
       "Login":  userForm.login,
       "Senha":  userForm.senha
@@ -44,10 +44,9 @@ export class AuthService {
         }
       },
       error  => {
-        console.log("Error", error);
+        return "Erro";
       }
     );
-    
   }
 
   logout() {
