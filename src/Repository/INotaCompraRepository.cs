@@ -6,7 +6,8 @@ namespace Repository {
     public interface INotaCompraRepository {
         Task<NotaCompra[]> GetNotasComprasAsyncByFilterDate(DateTime dataInicio, DateTime dataFim, int usuarioID);
         Task<bool> RegistraVistoAprovacaoAsyncById(int idNotaCompra, int usuarioId);
-
         Task<Usuario> autenticaUsuario(string login, string senha);
+        Task<int> GetConfNumVistoByValorNF(double valorNF);
+        Task<int> GetConfNumAprovacoesByValorNF(double valorNF);
     }
 }

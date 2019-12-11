@@ -18,11 +18,14 @@ namespace Repository {
 
             IQueryable<NotaCompra> query = _context.NotasCompra.Include(n => n.HistAprovNotasCompra)
             .Where(nf => nf.Status != Status.Aprovada)
+            //Filtro por periodo de data
             .Where(nf => dataInicio <= nf.DataEmissao && nf.DataEmissao <= dataFim)
+            //Notas dentro do limite do usuario
             .Where(nf => usuario.ValorMinimo <= nf.ValorTotal && nf.ValorTotal <= usuario.ValorMaximo)
+            //Usuario Ainda Nao registrou Visto / Aprovacao
             .Where(nf => nf.HistAprovNotasCompra.Where(h => h.UsuarioId == usuario.Id).Count() == 0);
             NotaCompra[] NFresult = await query.ToArrayAsync();
-
+            //Notas aguardando Visto ou Aprovacao conforme papel usuario
             if (usuario.Papel == Papel.Visto ) {
                 return NFresult.Where(nf => nf.PrecisaVisto(GetConfNumVistoByValorNF(nf.ValorTotal).Result)).ToArray();
             } 

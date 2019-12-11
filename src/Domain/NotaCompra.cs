@@ -26,7 +26,6 @@ namespace Domain
             }
             return false;
         }
-
         public bool PodeAprovar(int numVistoConf, int numAprovConf){
            return (!PrecisaVisto(numVistoConf) && !PrecisaAprovacao(numVistoConf,numAprovConf));
         }
