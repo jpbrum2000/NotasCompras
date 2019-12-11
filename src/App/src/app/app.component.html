@@ -1,5 +1,5 @@
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary" *ngIf="isLoggedIn$ | async">
     <button
       class="navbar-toggler"
       type="button"
@@ -14,18 +14,18 @@
     </button>
     <a class="navbar-brand ml-2 mr-auto">Micro Universo</a>
     <span class="navbar-text">
-      Usuario
+      {{ userName | async }} | <button class="btn btn-secondary btn-sm" (click)="logoff()">logoff</button>
     </span>
   </nav>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="isLoggedIn$ | async">
     <div class="collapse navbar-collapse" id="textoNavbar" [ngClass]="isCollapsed ? '' : 'show'" >
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" (click)="CollapseMenu()" [routerLink]="['/AprovacaoNotasCompra']" >Aprovação De Notas de Compra </a>
+          <a class="nav-link" (click)="CollapseMenu()" [routerLink]="['aprovacao-notas-compra']" >Aprovação De Notas de Compra </a>
         </li>
       </ul>
     </div>
   </nav>
-  <div class="container-fluid">
+<div class="container-fluid">
   <router-outlet></router-outlet>
 </div>

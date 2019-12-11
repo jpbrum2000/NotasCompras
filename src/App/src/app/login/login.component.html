@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+            <div class="card-body">
+            <h5 class="card-title text-center mb-3">Sistema Aprovação Notas de Compra</h5>
+            <form [formGroup]="form" class="form-signin" (ngSubmit)="onSubmit()">
+                <div class="form-label-group mb-3">
+                <label for="login">Login</label>
+                <input type="text" formControlName="login" class="form-control"  required autofocus>
+                </div>
+
+                <div class="form-label-group mb-3">
+                <label for="Senha">Senha</label>
+                <input type="password" formControlName="senha" class="form-control" required>
+                </div>
+
+                <button class="btn btn-lg btn-primary btn-block text-uppercase">Logar</button>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

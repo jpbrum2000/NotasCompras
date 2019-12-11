@@ -11,7 +11,6 @@ namespace WebApi
     public class PesquisaNotaCompraAprovacaoController : ControllerBase
     {
         private INotaCompraRepository _notaCompraRepository;
-        private IHostingEnvironment _env;
         public PesquisaNotaCompraAprovacaoController(INotaCompraRepository notaCompraRepository) {
             _notaCompraRepository = notaCompraRepository;
         }
@@ -21,18 +20,19 @@ namespace WebApi
            return Ok(new NotaCompraViewModel());
         }
 
-        [HttpGet("PesquisaNotaCompraAprovacao")]
+        [HttpPost("PesquisaNotaCompraAprovacao")]
         public async Task<IActionResult> Get([FromBody]PesquisaNotaCompraViewModel pesquisaNotaCompra) {
             List<NotaCompraViewModel> listNotaCompraViewModel = new List<NotaCompraViewModel>();
             foreach(NotaCompra nfCompra in await _notaCompraRepository.GetNotasComprasAsyncByFilterDate(pesquisaNotaCompra.dataInicio, pesquisaNotaCompra.dataFim, pesquisaNotaCompra.usuarioId)){
                 listNotaCompraViewModel.Add(
                     new NotaCompraViewModel {
-                        DataEmissao = nfCompra.DataEmissao,
-                        ValorMercadorias = nfCompra.ValorMercadorias,
-                        ValorDesconto = nfCompra.ValorDesconto,
-                        ValorFrete = nfCompra.ValorFrete,
-                        ValorTotal = nfCompra.ValorTotal,
-                        Status = (ViewModel.Status)(int)nfCompra.Status
+                        id = nfCompra.Id,
+                        dataEmissao = nfCompra.DataEmissao,
+                        valorMercadorias = nfCompra.ValorMercadorias,
+                        valorDesconto = nfCompra.ValorDesconto,
+                        valorFrete = nfCompra.ValorFrete,
+                        valorTotal = nfCompra.ValorTotal,
+                        status = (ViewModel.Status)(int)nfCompra.Status
                     }
                 );
             }

@@ -117,5 +117,31 @@ namespace UnitTests
             }
 
         }
+
+        [Fact]
+        public async void TestAutenticaUsuario(){
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            var options = new DbContextOptionsBuilder<NotaCompraContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            using (var context = new NotaCompraContext(options))
+            {
+                // Create the schema in the database
+                context.Database.EnsureCreated();
+                
+                INotaCompraRepository nfCompraRepository = new NotaCompraRepository(context);
+
+                //Usuario Valido
+                Assert.True(await nfCompraRepository.autenticaUsuario("gerente","gerente") != null);
+                //Usuario Invalido
+                Assert.True(await nfCompraRepository.autenticaUsuario("gerente","gerente1") == null);
+
+            }
+        }
+
     }
 }
