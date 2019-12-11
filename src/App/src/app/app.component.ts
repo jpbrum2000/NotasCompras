@@ -5,6 +5,12 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
-  title = 'App';
+  title = 'Aprovacao de Notas de Compra - Micro Universo';
+  isCollapsed = true;
+
+  CollapseMenu() {
+    this.isCollapsed = !this.isCollapsed;
+  }
 }
