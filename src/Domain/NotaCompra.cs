@@ -19,10 +19,16 @@ namespace Domain
                 int numVisto = HistAprovNotasCompra.Where(h => h.Operacao == Operacao.Visto).Count();
                 return numVisto < numVistoConf;
         }
-        public bool PrecisaAprovacao(int numAprovConf) { 
-                
+        public bool PrecisaAprovacao(int numVistoConf, int numAprovConf) { 
+            if(!PrecisaVisto(numVistoConf)){
                 int numAprov = HistAprovNotasCompra.Where(h => h.Operacao == Operacao.Aprovacao).Count();
                 return numAprov < numAprovConf;
+            }
+            return false;
+        }
+
+        public bool PodeAprovar(int numVistoConf, int numAprovConf){
+           return (!PrecisaVisto(numVistoConf) && !PrecisaAprovacao(numVistoConf,numAprovConf));
         }
     }
 }
