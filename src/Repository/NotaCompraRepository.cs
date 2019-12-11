@@ -65,8 +65,13 @@ namespace Repository {
                     _context.Update(nf);
                     return await _context.SaveChangesAsync() > 0;
                 }
+                return true;
             }
             return false;
+        }
+
+        public async Task<Usuario> autenticaUsuario(string login, string senha) {
+            return await _context.Usuario.Where(u => u.Login == login && u.Senha == senha).SingleOrDefaultAsync();
         }
     
         public async Task<int> GetConfNumVistoByValorNF(double valorNF){

@@ -3,11 +3,12 @@ using System;
 namespace WebApi.ViewModel {
     public enum Status { Pendente, Aprovada }
     public class NotaCompraViewModel {
-        public DateTime DataEmissao {get;set;}
-        public double ValorMercadorias {get;set;}
-        public double ValorDesconto {get;set;}
-        public double ValorFrete {get;set;}
-        public double ValorTotal {get;set;}
-        public Status Status {get;set;}
+        public int id {get;set;}
+        public DateTime dataEmissao {get;set;}
+        public double valorMercadorias {get;set;}
+        public double valorDesconto {get;set;}
+        public double valorFrete {get;set;}
+        public double valorTotal {get;set;}
+        public Status status {get;set;}
     }
 }
